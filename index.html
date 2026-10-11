@@ -1,0 +1,834 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="description"
+          content="A geographical overview of Vilappil Grama Panchayat, Thiruvananthapuram district, Kerala.">
+
+    <title>WebGIS | Vilappil Grama Panchayat</title>
+
+    <style>
+        /* GENERAL STYLING */
+
+        :root {
+            --green: #171761;
+            --dark-green: #100A46;
+            --light-green: #EAF0FA;
+            --cream: #F5F7FC;
+            --text: #292D3E;
+            --muted: #626B7A;
+            --gold: #C5A66A;
+            --border: #D9DFEB;
+            --white: #FFFFFF;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Times New Roman', Times, serif;
+            background: var(--cream);
+            color: var(--text);
+            line-height: 1.8;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1100px;
+            margin: 35px auto;
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 30px rgba(25, 65, 40, 0.08);
+        }
+
+        .content {
+            padding: 35px 55px;
+        }
+
+        /* GOVERNMENT HEADER */
+
+        .government-header {
+            text-align: center;
+            padding: 40px 20px 25px;
+            background: var(--white);
+        }
+
+        .government-label {
+            color: var(--green);
+            font-size: 12px;
+            font-weight: bold;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 18px;
+        }
+
+        .logo {
+            display: block;
+            width: 115px;
+            max-width: 45%;
+            height: auto;
+            object-fit: contain;
+            margin: 0 auto 20px;
+        }
+
+        .government-header h1 {
+            color: var(--dark-green);
+            font-size: clamp(25px, 4vw, 36px);
+            line-height: 1.3;
+            margin-bottom: 10px;
+        }
+
+        .government-header p {
+            color: var(--muted);
+            font-size: 14px;
+            margin: 0;
+            text-align: center;
+        }
+
+        .top-line {
+            width: 65px;
+            height: 3px;
+            background: var(--gold);
+            border: none;
+            margin: 24px auto 0;
+        }
+
+        /* INTRODUCTION BANNER */
+
+        .intro-banner {
+            background: linear-gradient(135deg, #100A46, #171761);
+            color: var(--white);
+            text-align: center;
+            padding: 45px 25px;
+        }
+
+        .intro-banner .small-title {
+            color: #C5A66A;
+            font-size: 11px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .intro-banner h2 {
+            font-size: clamp(25px, 4vw, 38px);
+            line-height: 1.3;
+            margin-bottom: 13px;
+        }
+
+        .intro-banner p {
+            max-width: 700px;
+            margin: 0 auto;
+            color: #E8ECFA;
+            text-align: center;
+            font-size: 15px;
+        }
+
+        /* SECTION HEADINGS */
+
+        .section-heading {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .section-heading .label {
+            color: var(--green);
+            font-size: 11px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .section-heading h2 {
+            color: var(--dark-green);
+            font-size: clamp(23px, 3vw, 30px);
+            line-height: 1.4;
+        }
+
+        .section-heading .underline {
+            width: 48px;
+            height: 3px;
+            border: none;
+            background: var(--gold);
+            margin: 14px auto 0;
+        }
+
+        /* PARAGRAPHS */
+
+        .text-content {
+            max-width: 920px;
+            margin: 0 auto;
+        }
+
+        .text-content p {
+            font-size: 15px;
+            line-height: 1.95;
+            text-align: justify;
+            margin: 0 0 18px;
+            color: var(--text);
+        }
+
+        .text-content p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* IMAGES */
+
+        .image-frame {
+            background: var(--white);
+            padding: 10px;
+            border: 1px solid var(--border);
+            border-radius: 9px;
+            margin: 25px auto;
+            max-width: 920px;
+        }
+
+        .panchayat-image {
+            display: block;
+            width: 100%;
+            max-height: 490px;
+            object-fit: contain;
+            margin: 0 auto;
+            border-radius: 5px;
+        }
+
+        .map-image {
+            display: block;
+            width: 100%;
+            max-width: 650px;
+            max-height: 500px;
+            object-fit: contain;
+            margin: 0 auto;
+            border-radius: 5px;
+        }
+
+        .image-caption {
+            color: var(--muted);
+            font-size: 12px;
+            text-align: center;
+            margin: 12px 5px 4px;
+            line-height: 1.6;
+        }
+
+        /* STATISTICS */
+
+        .stats-section {
+            background: var(--light-green);
+            padding: 35px 25px;
+        }
+
+        .stats-title {
+            text-align: center;
+            color: var(--dark-green);
+            font-size: 22px;
+            margin-bottom: 22px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            max-width: 850px;
+            margin: auto;
+        }
+
+        .stat-card {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            text-align: center;
+            padding: 20px 10px;
+        }
+
+        .stat-number {
+            display: block;
+            color: var(--green);
+            font-size: 25px;
+            font-weight: bold;
+            line-height: 1.4;
+        }
+
+        .stat-label {
+            display: block;
+            color: var(--muted);
+            font-size: 12px;
+            margin-top: 6px;
+        }
+
+        .data-note {
+            max-width: 850px;
+            margin: 17px auto 0;
+            color: var(--muted);
+            font-size: 11px;
+            line-height: 1.6;
+        }
+
+        /* ENVIRONMENTAL HIGHLIGHT */
+
+        .environment-box {
+            max-width: 920px;
+            margin: 0 auto;
+            background: var(--light-green);
+            border-left: 4px solid var(--green);
+            border-radius: 5px;
+            padding: 24px 27px;
+        }
+
+        .environment-box h3 {
+            color: var(--dark-green);
+            font-size: 19px;
+            margin-bottom: 12px;
+        }
+
+        .environment-box p {
+            color: var(--text);
+            font-size: 14px;
+            line-height: 1.9;
+            text-align: justify;
+            margin-bottom: 12px;
+        }
+
+        .environment-box p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* LINKS */
+
+        .official-link {
+            text-align: center;
+            margin-top: 25px;
+        }
+
+        .official-link a {
+            display: inline-block;
+            background: var(--green);
+            color: var(--white);
+            padding: 13px 22px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: bold;
+            transition: background 0.2s ease;
+        }
+
+        .official-link a:hover {
+            background: var(--dark-green);
+        }
+
+        .secondary-link {
+            display: inline-block;
+            margin: 15px 10px 0;
+            color: var(--green);
+            font-size: 13px;
+            font-weight: bold;
+            text-decoration: underline;
+            overflow-wrap: anywhere;
+        }
+
+        /* DIVIDERS */
+
+        .section-divider {
+            border: none;
+            border-top: 1px solid var(--border);
+            margin: 0 55px;
+        }
+
+        /* CONTACT */
+
+        .contact {
+            background: var(--light-green);
+            padding: 32px 20px;
+            text-align: center;
+            border-top: 1px solid var(--border);
+        }
+
+        .contact h2 {
+            color: var(--dark-green);
+            font-size: 25px;
+            margin-bottom: 15px;
+        }
+
+        .contact p {
+            font-size: 14px;
+            line-height: 1.9;
+            text-align: center;
+            margin-bottom: 5px;
+        }
+
+        .contact a {
+            color: var(--green);
+            text-decoration: none;
+            font-weight: bold;
+            overflow-wrap: anywhere;
+        }
+
+        .contact a:hover {
+            text-decoration: underline;
+        }
+
+        /* FOOTER */
+
+        .footer {
+            background: var(--dark-green);
+            color: var(--white);
+            padding: 20px;
+            text-align: center;
+        }
+
+        .footer p {
+            color: #D6D9F0;
+            font-size: 11px;
+            line-height: 1.8;
+            margin: 3px 0;
+            text-align: center;
+        }
+
+        /* RESPONSIVE DESIGN */
+
+        @media (max-width: 650px) {
+
+            .container {
+                width: 94%;
+                margin: 15px auto;
+                border-radius: 8px;
+            }
+
+            .content {
+                padding: 30px 22px;
+            }
+
+            .government-header {
+                padding: 30px 15px 22px;
+            }
+
+            .intro-banner {
+                padding: 35px 20px;
+            }
+
+            .text-content p {
+                font-size: 14px;
+                text-align: left;
+            }
+
+            .section-divider {
+                margin: 0 22px;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+            }
+
+            .stat-card {
+                padding: 16px 8px;
+            }
+
+            .stat-number {
+                font-size: 22px;
+            }
+
+            .environment-box {
+                padding: 20px;
+            }
+
+            .map-image {
+                max-width: 100%;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            html {
+                scroll-behavior: auto;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <!-- GOVERNMENT HEADER -->
+
+        <header class="government-header">
+
+            <div class="government-label">
+                Local Self Government | Kerala
+            </div>
+
+            <img
+                src="C:\Users\Ancy\Desktop\SSUS\QGIS Task\webgis\logo-image.png"
+                alt="Government of Kerala emblem"
+                class="logo"
+            >
+
+            <h1>GOVERNMENT OF KERALA</h1>
+
+            <p>
+                Decentralised Governance and Rural Development
+            </p>
+
+            <hr class="top-line">
+
+        </header>
+
+
+        <!-- INTRODUCTION BANNER -->
+
+        <section class="intro-banner">
+
+            <div class="small-title">
+                Geographical Information Website
+            </div>
+
+            <h2>VILAPPIL GRAMA PANCHAYAT</h2>
+
+            <p>
+                A geographical overview of people, settlements,
+                land use and environmental concerns in
+                Thiruvananthapuram district, Kerala.
+            </p>
+
+        </section>
+
+
+        <!-- GOVERNMENT OF KERALA INTRODUCTION -->
+
+        <section class="content">
+
+            <div class="section-heading">
+                <div class="label">About the State</div>
+                <h2>Government of Kerala</h2>
+                <hr class="underline">
+            </div>
+
+            <div class="text-content">
+
+                <p>
+                    The state of Kerala was formed on 1 November
+                    1956 following the reorganisation of Indian
+                    states on a linguistic basis. Kerala has
+                    developed a decentralised system of local
+                    self-government that supports local-level
+                    planning and public participation.
+                </p>
+
+                <p>
+                    The three-tier Panchayati Raj system comprises
+                    Grama Panchayats at the village level, Block
+                    Panchayats at the intermediate level and
+                    District Panchayats at the district level.
+                    These institutions contribute to local
+                    development, public services, infrastructure
+                    provision and community welfare within
+                    their respective responsibilities.
+                </p>
+
+                <p>
+                    Grama Panchayats are particularly important
+                    because they connect development planning
+                    with the everyday needs of local communities.
+                    They also provide an important administrative
+                    framework for addressing sanitation,
+                    infrastructure, resource management and
+                    environmental concerns.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <hr class="section-divider">
+
+
+        <!-- PANCHAYAT INTRODUCTION -->
+
+        <section class="content">
+
+            <div class="section-heading">
+                <h2>Vilappil Grama Panchayat</h2>
+                <hr class="underline">
+            </div>
+
+            <!-- Panchayat building photograph -->
+
+            <div class="image-frame">
+
+                <img
+                    src="C:\Users\Ancy\Desktop\SSUS\QGIS Task\webgis\panchayat-building.png"
+                    alt="Vilappil Grama Panchayat office building"
+                    class="panchayat-image"
+                    loading="lazy"
+                >
+
+                <p class="image-caption">
+                    Vilappil Grama Panchayat office.
+                </p>
+
+            </div>
+
+            <div class="text-content">
+
+                <p>
+                    Vilappil Grama Panchayat, located in Thiruvananthapuram district, Kerala, is a local self-government institution responsible for promoting local development and community welfare. Its geographical characteristics, including settlement patterns, land use, transport connectivity and proximity to the urban region, provide insights into the spatial organisation of the Panchayat. Studying these aspects helps understand regional interactions, access to essential services and the relationship between human activities and the surrounding environment.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- ADMINISTRATIVE PROFILE -->
+
+        <section class="stats-section">
+
+            <h2 class="stats-title">
+                Panchayat at a Glance
+            </h2>
+
+            <div class="stats-grid">
+
+                <div class="stat-card">
+                    <span class="stat-number">19.30</span>
+                    <span class="stat-label">
+                        Area (km²)
+                    </span>
+                </div>
+
+                <div class="stat-card">
+                    <span class="stat-number">36,212</span>
+                    <span class="stat-label">
+                        Published Population Figure
+                    </span>
+                </div>
+
+                <div class="stat-card">
+                    <span class="stat-number">1,876.27</span>
+                    <span class="stat-label">
+                        Persons per km²
+                    </span>
+                </div>
+
+                <div class="stat-card">
+                    <span class="stat-number">20</span>
+                    <span class="stat-label">
+                        Wards in Published Profile
+                    </span>
+                </div>
+
+                <div class="stat-card">
+                    <span class="stat-number">9,515</span>
+                    <span class="stat-label">
+                        Households in Published Profile
+                    </span>
+                </div>
+
+            </div>
+
+            <p class="data-note">
+                Source: Published Grama Panchayat profile,
+                Department of Panchayats, Government of Kerala.
+            </p>
+
+        </section>
+
+
+        <!-- LOCATION MAP -->
+
+        <section class="content">
+
+            <div class="section-heading">
+                <h2>Location of Vilappil Grama Panchayat</h2>
+                <hr class="underline">
+            </div>
+
+            <div class="text-content">
+
+                <p>
+                    Vilappil Grama Panchayat, located in Thiruvananthapuram district, Kerala, provides an important geographical context for understanding rural–urban interactions and regional development. Its location and connectivity with the surrounding areas influence settlement patterns, transportation networks, accessibility to urban services and land-use changes. The location map helps identify the Panchayat within its wider administrative setting and understand its spatial relationship with neighbouring areas.
+                </p>
+
+            </div>
+
+            <div class="image-frame">
+
+                <img
+                    src="C:\Users\Ancy\Desktop\SSUS\QGIS Task\webgis\village-map.png"
+                    alt="Static location map of Vilappil Grama Panchayat"
+                    class="map-image"
+                    loading="lazy"
+                >
+
+                <p class="image-caption">
+                    Location map of Vilappil Grama Panchayat.
+                    </p>
+
+            </div>
+
+        </section>
+
+
+        <hr class="section-divider">
+
+
+     
+<!-- GEOGRAPHICAL SIGNIFICANCE -->
+
+<section class="content">
+
+    <div class="section-heading">
+        <h2>Geographical Significance of Vilappil Grama Panchayat</h2>
+        <hr class="underline">
+    </div>
+
+    <div class="text-content">
+
+        <p>
+            Vilappil Grama Panchayat, located in Thiruvananthapuram
+            district, Kerala, is significant for understanding the
+            geographical relationship between rural settlements
+            and the expanding urban region of the state capital.
+            Its location provides an opportunity to examine
+            rural–urban interactions, settlement development
+            and changes in land-use patterns.
+        </p>
+
+        <p>
+            From a geographical perspective, the Panchayat is
+            relevant for studying population distribution,
+            transportation connectivity, infrastructure development
+            and the spatial organisation of settlements. These
+            characteristics help explain how accessibility to
+            urban services and changing land-use demands influence
+            local development.
+        </p>
+
+        <p>
+            The area also provides a context for examining
+            environmental planning and resource management.
+            The Vilappilsala waste-treatment controversy
+            highlights the geographical dimensions of waste
+            disposal, environmental justice, public participation
+            and the unequal distribution of environmental burdens.
+            It demonstrates the importance of integrating
+            environmental considerations into local-level planning.
+        </p>
+
+        <p>
+            Therefore, Vilappil Grama Panchayat offers a relevant
+            setting for geographical analysis using maps, spatial
+            data and field-based information. A WebGIS approach
+            can help visualise administrative boundaries,
+            settlement patterns, land use and environmental
+            concerns, supporting a better understanding of
+            local conditions and sustainable development needs.
+        </p>
+
+    </div>
+
+</section>
+
+
+
+        <!-- OFFICIAL LINKS -->
+
+        <section class="content">
+
+            <div class="section-heading">
+                <div class="label">Official Resources</div>
+                <h2>Useful Links</h2>
+                <hr class="underline">
+            </div>
+
+            <div class="official-link">
+
+                <a
+                    href="https://lsgd.kerala.gov.in/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    Visit Kerala Local Self Government Department
+                </a>
+
+                <br>
+
+                <a
+                    href="https://dop.lsgkerala.gov.in/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="secondary-link"
+                >
+                    Department of Panchayats, Kerala
+                </a>
+
+                <br>
+
+                <a
+                    href="https://trivandrum.nic.in/en/panchayats/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="secondary-link"
+                >
+                    Thiruvananthapuram District Panchayat Directory
+                </a>
+
+            </div>
+
+        </section>
+
+
+        <!-- CONTACT -->
+
+        <section class="contact">
+
+            <h2>CONTACT DETAILS</h2>
+
+            <p>
+                Ancy Anil D
+            </p>
+
+            <p>
+                E-Mail : ancyanild47@gmail.com
+            </p>
+
+            <p>
+                Contact No: 76946 356575
+            </p>
+
+
+        </section>
+
+
+        <!-- FOOTER -->
+
+        <footer class="footer">
+
+            <p>
+                Vilappil Grama Panchayat | Thiruvananthapuram, Kerala
+            </p>
+
+
+        </footer>
+
+    </div>
+
+</body>
+
+</html>
